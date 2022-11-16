@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FFXIV Rotation</string>
+    <string name="navigation_drawer_open">Op\'n Navigator\'s Dr\'awr</string>
+    <string name="navigation_drawer_close">Close Navigator\'s Dr\'awr</string>
+</resources>
