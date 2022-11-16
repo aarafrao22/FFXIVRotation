@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -61,7 +62,13 @@ class ListviewsFragment : Fragment(), MovieListAdapter.MovieClickInterface {
         _binding = null
     }
 
-    override fun onDelete(position: Int) {
+    override fun onClick(position: Int) {
 
+        val homeViewModel =
+            activity?.let { ViewModelProvider(it).get(ListviewsViewModel::class.java) }
+        homeViewModel!!.deleteMovie(position)
+        Toast.makeText(context, "ItemClicked", Toast.LENGTH_SHORT).show()
     }
+
+
 }

@@ -3,7 +3,6 @@ package inc.awesomeness.xivrotation
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -35,12 +34,11 @@ class MovieListAdapter constructor(
 
         init {
             nameTextView = itemView.findViewById(R.id.nameTextview)
-
-//            deleteButton.setOnClickListener { movieClickInterface.onDelete(adapterPosition) }
+            itemView.setOnClickListener { movieClickInterface.onClick(adapterPosition) }
         }
     }
 
     interface MovieClickInterface {
-        fun onDelete(position: Int)
+        fun onClick(position: Int)
     }
 }
