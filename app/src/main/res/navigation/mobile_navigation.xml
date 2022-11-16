@@ -27,5 +27,21 @@
         android:id="@+id/nav_listviews"
         android:name="inc.awesomeness.xivrotation.ui.listviews.ListviewsFragment"
         android:label="@string/menu_listviews"
-        tools:layout="@layout/fragment_listviews" />
+        tools:layout="@layout/fragment_listviews">
+
+        <action
+            android:id="@+id/action_nav_listviews_to_listviewsInputFragment"
+            app:destination="@id/listviewsInputFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/listviewsInputFragment"
+        android:name="inc.awesomeness.xivrotation.ui.listviews.ListviewsInputFragment"
+        android:label="fragment_listviews_input"
+        tools:layout="@layout/fragment_listviews_input">
+        <action
+            android:id="@+id/action_listviewsInputFragment_to_nav_listviews"
+            app:destination="@id/nav_listviews" />
+    </fragment>
+
 </navigation>

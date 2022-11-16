@@ -49,23 +49,16 @@ class ListviewsViewModel : ViewModel() {
         }
     }
 
-    fun updateMovie(newMovie: StringModel, position: Int) {
-        if (mutableLiveData!!.value != null) {
-            val movieList: MutableList<StringModel> = ArrayList(mutableLiveData!!.value)
-            movieList.removeAt(position)
-            movieList.add(position, newMovie)
-            mutableLiveData!!.setValue(movieList)
-        }
-    }
-    private var _list = MutableLiveData<MutableList<StringModel>>().apply {
-        myList.add(StringModel("1"))
-        myList.add(StringModel("2"))
-        myList.add(StringModel("3"))
-        myList.add(StringModel("4"))
-        value = myList
-    }
+//    fun updateMovie(newMovie: StringModel, position: Int) {
+//        if (mutableLiveData!!.value != null) {
+//            val movieList: MutableList<StringModel> = ArrayList(mutableLiveData!!.value)
+//            movieList.removeAt(position)
+//            movieList.add(position, newMovie)
+//            mutableLiveData!!.setValue(movieList)
+//        }
+//    }
+
 
     val text: LiveData<String> = _text
-    val list: LiveData<MutableList<StringModel>> = _list
 
 }

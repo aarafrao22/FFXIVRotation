@@ -8,23 +8,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
-import android.widget.TextView
-import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import inc.awesomeness.xivrotation.MovieListAdapter
-import inc.awesomeness.xivrotation.RVAdapter
-import inc.awesomeness.xivrotation.StringModel
-import inc.awesomeness.xivrotation.Utils
-import inc.awesomeness.xivrotation.databinding.FragmentHomeBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import inc.awesomeness.xivrotation.*
 import inc.awesomeness.xivrotation.databinding.FragmentListviewsBinding
 
 class ListviewsFragment : Fragment(), MovieListAdapter.MovieClickInterface {
 
     private var _binding: FragmentListviewsBinding? = null
     private val binding get() = _binding!!
-    var items: MutableList<StringModel> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,22 +27,32 @@ class ListviewsFragment : Fragment(), MovieListAdapter.MovieClickInterface {
     ): View {
 
         val homeViewModel =
-            ViewModelProvider(this).get(ListviewsViewModel::class.java)
+            activity?.let { ViewModelProvider(it).get(ListviewsViewModel::class.java) }
         Utils.status = 1
+
         _binding = FragmentListviewsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        var recyclerView: RecyclerView = binding.recyclerView
+        val recyclerView: RecyclerView = binding.recyclerView
+        val btnFab: FloatingActionButton = binding.btnFab
 
-        var adapter = MovieListAdapter(StringModel.itemCallback, this)
+        val adapter = MovieListAdapter(StringModel.itemCallback, this)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
-        homeViewModel.getMovieList()!!
+        btnFab.setOnClickListener {
+            root.findNavController().navigate(R.id.action_nav_listviews_to_listviewsInputFragment)
+        }
+        homeViewModel!!.getMovieList()!!
             .observe(viewLifecycleOwner) { t ->
                 adapter.submitList(t as List<StringModel?>?)
+                Log.d(TAG, "updatedList: ${t?.size} ")
             }
-
+//
+//        btnSave.setOnClickListener {
+//            homeViewModel.addMovie(StringModel("demo"))
+////            homeViewModel.deleteMovie(1)
+//        }
         return root
     }
 

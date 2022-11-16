@@ -1,11 +1,22 @@
 package inc.awesomeness.xivrotation.ui.listviews
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import inc.awesomeness.xivrotation.R
+import inc.awesomeness.xivrotation.R.navigation
+import inc.awesomeness.xivrotation.StringModel
+import inc.awesomeness.xivrotation.Utils
+import inc.awesomeness.xivrotation.databinding.FragmentListviewsInputBinding
 
 
 private const val ARG_PARAM1 = "param1"
@@ -24,11 +35,40 @@ class ListviewsInputFragment : Fragment() {
         }
     }
 
+    private var _binding: FragmentListviewsInputBinding? = null
+    private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_listviews_input, container, false)
+
+        _binding = FragmentListviewsInputBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+        val homeViewModel =
+            activity?.let { ViewModelProvider(it).get(ListviewsViewModel::class.java) }
+
+        val btnSave: Button = binding.btnSave
+
+        btnSave.setOnClickListener {
+            if (binding.edItemName.text != null) {
+
+                Utils.status = 2
+                val text = binding.edItemName.text.toString()
+                homeViewModel!!.addMovie(StringModel(text))
+
+                root.findNavController().navigateUp()
+                Toast.makeText(context, "ItemAdded", Toast.LENGTH_SHORT).show()
+
+//                root.findNavController().
+//                navigate(R.id.action_listviewsInputFragment_to_nav_listviews)
+
+            } else {
+                Toast.makeText(context, "Please Add Something First", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        return root
+
     }
 
     companion object {

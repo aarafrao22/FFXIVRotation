@@ -13,8 +13,11 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import inc.awesomeness.xivrotation.databinding.ActivityMainBinding
+import inc.awesomeness.xivrotation.ui.listviews.ListviewsFragment
 import inc.awesomeness.xivrotation.ui.listviews.ListviewsInputFragment
+import inc.awesomeness.xivrotation.ui.listviews.ListviewsViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,11 +50,22 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
+    override fun onBackPressed() {
+        val count = supportFragmentManager.backStackEntryCount
+        if (count == 0) {
+            super.onBackPressed()
+        } else {
+            supportFragmentManager.popBackStack()
+        }
+    }
+
     private fun createFAB() {
         binding.appBarMain.fab.setOnClickListener { view ->
             if (Utils.status == 1) {
                 switchFrag(ListviewsInputFragment())
-                Toast.makeText(applicationContext, "ListInputFrag", Toast.LENGTH_SHORT).show()
+
+            } else if (Utils.status == 2) {
+
             } else
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
@@ -63,6 +77,7 @@ class MainActivity : AppCompatActivity() {
         transaction.replace(R.id.listview_frag, fragment)
         transaction.commit()
     }
+
 
     fun hideFAB() {
         binding.appBarMain.fab.hide();
