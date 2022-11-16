@@ -1,5 +1,6 @@
 package inc.awesomeness.xivrotation
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+
 
 class MovieListAdapter constructor(
     diffCallback: DiffUtil.ItemCallback<StringModel?>,
@@ -31,10 +33,14 @@ class MovieListAdapter constructor(
         }
 
 
-
         init {
             nameTextView = itemView.findViewById(R.id.nameTextview)
-            itemView.setOnClickListener { movieClickInterface.onClick(adapterPosition) }
+            itemView.setOnClickListener {
+                movieClickInterface.onClick(adapterPosition)
+                itemView.setBackgroundColor(Color.CYAN)
+
+//                itemView.setBackgroundColor(getResource)
+            }
         }
     }
 

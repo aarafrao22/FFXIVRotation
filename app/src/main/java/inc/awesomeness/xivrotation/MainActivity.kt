@@ -62,8 +62,7 @@ class MainActivity : AppCompatActivity() {
     private fun createFAB() {
         binding.appBarMain.fab.setOnClickListener { view ->
             if (Utils.status == 1) {
-                switchFrag(ListviewsInputFragment())
-
+//                switchFrag(ListviewsInputFragment())
             } else if (Utils.status == 2) {
 
             } else

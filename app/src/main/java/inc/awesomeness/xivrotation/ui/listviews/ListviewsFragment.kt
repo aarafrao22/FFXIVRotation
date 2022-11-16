@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,10 +18,9 @@ import inc.awesomeness.xivrotation.*
 import inc.awesomeness.xivrotation.databinding.FragmentListviewsBinding
 
 class ListviewsFragment : Fragment(), MovieListAdapter.MovieClickInterface {
-
+    var list = mutableListOf<Int>();
     private var _binding: FragmentListviewsBinding? = null
     private val binding get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,6 +36,7 @@ class ListviewsFragment : Fragment(), MovieListAdapter.MovieClickInterface {
 
         val recyclerView: RecyclerView = binding.recyclerView
         val btnFab: FloatingActionButton = binding.btnFab
+        val btnDelete: Button = binding.btnDelete
 
         val adapter = MovieListAdapter(StringModel.itemCallback, this)
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -44,16 +45,22 @@ class ListviewsFragment : Fragment(), MovieListAdapter.MovieClickInterface {
         btnFab.setOnClickListener {
             root.findNavController().navigate(R.id.action_nav_listviews_to_listviewsInputFragment)
         }
+
+        btnDelete.setOnClickListener {
+            if (list.size > 0) {
+                for (item: Int in list) {
+                    homeViewModel?.deleteMovie(item)
+                }
+            } else {
+                Toast.makeText(context, "Select Something first", Toast.LENGTH_SHORT).show()
+            }
+            list= mutableListOf<Int>()
+        }
         homeViewModel!!.getMovieList()!!
             .observe(viewLifecycleOwner) { t ->
                 adapter.submitList(t as List<StringModel?>?)
                 Log.d(TAG, "updatedList: ${t?.size} ")
             }
-//
-//        btnSave.setOnClickListener {
-//            homeViewModel.addMovie(StringModel("demo"))
-////            homeViewModel.deleteMovie(1)
-//        }
         return root
     }
 
@@ -63,10 +70,10 @@ class ListviewsFragment : Fragment(), MovieListAdapter.MovieClickInterface {
     }
 
     override fun onClick(position: Int) {
-
-        val homeViewModel =
-            activity?.let { ViewModelProvider(it).get(ListviewsViewModel::class.java) }
-        homeViewModel!!.deleteMovie(position)
+        list.add(position)
+//        val homeViewModel =
+//            activity?.let { ViewModelProvider(it).get(ListviewsViewModel::class.java) }
+//        homeViewModel!!.deleteMovie(position)
         Toast.makeText(context, "ItemClicked", Toast.LENGTH_SHORT).show()
     }
 
