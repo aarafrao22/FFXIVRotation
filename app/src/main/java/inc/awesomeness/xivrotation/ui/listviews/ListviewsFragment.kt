@@ -48,13 +48,20 @@ class ListviewsFragment : Fragment(), MovieListAdapter.MovieClickInterface {
 
         btnDelete.setOnClickListener {
             if (list.size > 0) {
-                for (item: Int in list) {
+                list.sortDescending()
+                Log.d(TAG, "list: "+list)
+//                val size:Int =list.size-1
+                for (item in list) {
                     homeViewModel?.deleteMovie(item)
                 }
+//                for (i in list.size - 1 downTo 0) {
+//                    homeViewModel?.deleteMovie(i)
+//                }
+
             } else {
                 Toast.makeText(context, "Select Something first", Toast.LENGTH_SHORT).show()
             }
-            list= mutableListOf<Int>()
+            list = mutableListOf<Int>()
         }
         homeViewModel!!.getMovieList()!!
             .observe(viewLifecycleOwner) { t ->
