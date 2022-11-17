@@ -2,22 +2,16 @@ package inc.awesomeness.xivrotation
 
 import android.os.Bundle
 import android.view.Menu
-import android.widget.Toast
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.navigation.NavigationView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import inc.awesomeness.xivrotation.databinding.ActivityMainBinding
-import inc.awesomeness.xivrotation.ui.listviews.ListviewsFragment
-import inc.awesomeness.xivrotation.ui.listviews.ListviewsInputFragment
-import inc.awesomeness.xivrotation.ui.listviews.ListviewsViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -69,12 +63,6 @@ class MainActivity : AppCompatActivity() {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
-    }
-
-    private fun switchFrag(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.listview_frag, fragment)
-        transaction.commit()
     }
 
 

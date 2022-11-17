@@ -17,8 +17,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import inc.awesomeness.xivrotation.*
 import inc.awesomeness.xivrotation.databinding.FragmentListviewsBinding
 
-class ListviewsFragment : Fragment(), MovieListAdapter.MovieClickInterface {
-    var list = mutableListOf<Int>();
+class ListviewsFragment : Fragment(), MovieListAdapter.MovieClickInterface,
+    MovieListAdapter.MovieDoubleClickInterface {
+    private var list = mutableListOf<Int>()
     private var _binding: FragmentListviewsBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -28,7 +29,7 @@ class ListviewsFragment : Fragment(), MovieListAdapter.MovieClickInterface {
     ): View {
 
         val homeViewModel =
-            activity?.let { ViewModelProvider(it).get(ListviewsViewModel::class.java) }
+            activity?.let { ViewModelProvider(it)[ListviewsViewModel::class.java] }
         Utils.status = 1
 
         _binding = FragmentListviewsBinding.inflate(inflater, container, false)
@@ -38,7 +39,7 @@ class ListviewsFragment : Fragment(), MovieListAdapter.MovieClickInterface {
         val btnFab: FloatingActionButton = binding.btnFab
         val btnDelete: Button = binding.btnDelete
 
-        val adapter = MovieListAdapter(StringModel.itemCallback, this)
+        val adapter = MovieListAdapter(StringModel.itemCallback, this, this)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
@@ -49,19 +50,16 @@ class ListviewsFragment : Fragment(), MovieListAdapter.MovieClickInterface {
         btnDelete.setOnClickListener {
             if (list.size > 0) {
                 list.sortDescending()
-                Log.d(TAG, "list: " + list)
-//                val size:Int =list.size-1
+
                 for (item in list) {
                     homeViewModel?.deleteMovie(item)
                 }
-//                for (i in list.size - 1 downTo 0) {
-//                    homeViewModel?.deleteMovie(i)
-//                }
+
 
             } else {
                 Toast.makeText(context, "Select Something first", Toast.LENGTH_SHORT).show()
             }
-            list = mutableListOf<Int>()
+            list = mutableListOf()
         }
         homeViewModel!!.getMovieList()!!
             .observe(viewLifecycleOwner) { t ->
@@ -79,8 +77,16 @@ class ListviewsFragment : Fragment(), MovieListAdapter.MovieClickInterface {
     override fun onClick(position: Int) {
         if (!list.contains(position)) {
             list.add(position)
-        }else{
+        } else {
             Toast.makeText(context, "Item is already in the list", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onDoubleClick(position: Int) {
+        if (list.contains(position)) {
+            list.removeAt(position)
+        } else {
+            Toast.makeText(context, "Select first to Unselect", Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -8,12 +8,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import inc.awesomeness.xivrotation.R
-import inc.awesomeness.xivrotation.R.navigation
 import inc.awesomeness.xivrotation.StringModel
 import inc.awesomeness.xivrotation.Utils
 import inc.awesomeness.xivrotation.databinding.FragmentListviewsInputBinding
@@ -40,12 +35,12 @@ class ListviewsInputFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentListviewsInputBinding.inflate(inflater, container, false)
         val root: View = binding.root
         val homeViewModel =
-            activity?.let { ViewModelProvider(it).get(ListviewsViewModel::class.java) }
+            activity?.let { ViewModelProvider(it)[ListviewsViewModel::class.java] }
 
         val btnSave: Button = binding.btnSave
 
@@ -71,14 +66,4 @@ class ListviewsInputFragment : Fragment() {
 
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ListviewsInputFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }
