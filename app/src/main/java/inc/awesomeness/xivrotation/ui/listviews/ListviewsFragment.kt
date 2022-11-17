@@ -49,7 +49,7 @@ class ListviewsFragment : Fragment(), MovieListAdapter.MovieClickInterface {
         btnDelete.setOnClickListener {
             if (list.size > 0) {
                 list.sortDescending()
-                Log.d(TAG, "list: "+list)
+                Log.d(TAG, "list: " + list)
 //                val size:Int =list.size-1
                 for (item in list) {
                     homeViewModel?.deleteMovie(item)
@@ -77,11 +77,11 @@ class ListviewsFragment : Fragment(), MovieListAdapter.MovieClickInterface {
     }
 
     override fun onClick(position: Int) {
-        list.add(position)
-//        val homeViewModel =
-//            activity?.let { ViewModelProvider(it).get(ListviewsViewModel::class.java) }
-//        homeViewModel!!.deleteMovie(position)
-        Toast.makeText(context, "ItemClicked", Toast.LENGTH_SHORT).show()
+        if (!list.contains(position)) {
+            list.add(position)
+        }else{
+            Toast.makeText(context, "Item is already in the list", Toast.LENGTH_SHORT).show()
+        }
     }
 
 
